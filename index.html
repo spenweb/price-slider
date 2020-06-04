@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parcel Sandbox</title>
+    <meta charset="UTF-8" />
+    <!--Plugin CSS file with desired skin-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"
+    />
+
+    <!--jQuery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!--Plugin JavaScript file-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+
+    <style>
+      #sws-price-slider *,
+      #sws-price-slider-linear * {
+        font-family: "Poppins", sans-serif; /* Need to determine font */
+        font-weight: 300;
+        line-height: 1.5;
+      }
+
+      #sws-price-slider,
+      .sws-price-slider {
+        border-style: solid;
+        border-width: 2px;
+        background-clip: border-box;
+        border-color: #f1f1f1;
+        border-radius: 10px;
+      }
+
+      .sws-column-group {
+        overflow: hidden;
+      }
+
+      .sws-ps-col {
+        width: 50%;
+        float: left;
+      }
+
+      .sws-ps-content {
+        padding: 55px 40px;
+      }
+
+      .sws-ps-content-border-right {
+        border-style: solid;
+        border-width: 0;
+        background-clip: border-box;
+        border-color: #f1f1f1;
+        border-right-width: 2px;
+      }
+
+      .sws-ps-highlighted-number {
+        color: #3498db;
+        font-size: 36px;
+        margin: 0;
+      }
+
+      /*.sws-ps-price::first-letter {
+        font-size: 26px;
+        letter-spacing: 0.2em;
+      }*/
+
+      .sws-ps-title {
+        font-size: 22px;
+        line-height: 1.2;
+        margin: 10px 0;
+      }
+
+      .sws-ps-disclaimer {
+        margin-top: 25px;
+        margin-bottom: 0;
+        font-size: 16px;
+      }
+
+      .irs-grid-pol.small,
+      .irs-grid-text,
+      .irs-max,
+      .irs-min,
+      .irs-single {
+        display: none !important;
+      }
+
+      .irs--round .irs-handle {
+        border: none !important;
+        box-shadow: 1px 1px 10px 5px rgba(52, 152, 219, 0.15) !important;
+      }
+
+      .irs--round .irs-grid {
+        height: 18px !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Exponential example</h2>
+    <div id="sws-price-slider" class="sws-price-slider">
+      <div class="sws-column-group">
+        <div class="sws-ps-col">
+          <div class="sws-ps-content sws-ps-content-border-right">
+            <div class="sws-ps-price-messages">
+              <p class="sws-ps-title sws-ps-purchase-price-title">
+                Your Purchase Price
+              </p>
+              <p class="sws-ps-highlighted-number sws-ps-price">$0</p>
+            </div>
+            <input
+              type="text"
+              class="js-range-slider-exponential"
+              name="my_range"
+              value=""
+            />
+          </div>
+        </div>
+        <div class="sws-ps-col">
+          <div class="sws-ps-content">
+            <div class="sws-ps-savings-messages">
+              <p class="sws-ps-title sws-ps-savings-title">
+                Anticipated Savings
+              </p>
+              <p class="sws-ps-highlighted-number sws-ps-savings">$0</p>
+              <p class="sws-ps-disclaimer">Based On A 3% Buyer Commision</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Linear example</h2>
+    <div id="sws-price-slider-linear" class="sws-price-slider">
+      <div class="sws-column-group">
+        <div class="sws-ps-col">
+          <div class="sws-ps-content sws-ps-content-border-right">
+            <div class="sws-ps-price-messages">
+              <p class="sws-ps-title sws-ps-purchase-price-title">
+                Your Purchase Price
+              </p>
+              <p class="sws-ps-highlighted-number sws-ps-price">$0</p>
+            </div>
+            <input
+              type="text"
+              class="js-range-slider-linear"
+              name="my_range"
+              value=""
+            />
+          </div>
+        </div>
+        <div class="sws-ps-col">
+          <div class="sws-ps-content">
+            <div class="sws-ps-savings-messages">
+              <p class="sws-ps-title sws-ps-savings-title">
+                Anticipated Savings
+              </p>
+              <p class="sws-ps-highlighted-number sws-ps-savings">$0</p>
+              <p class="sws-ps-disclaimer">Based On A 3% Buyer Commision</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var minPrice = 150000;
+      var maxPrice = 3000000;
+
+      var formatNumber = function(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+      };
+
+      var parabolaFuncGenerator = function(a, b, c) {
+        return function(x) {
+          return a * Math.pow(x, 2) + b * x + c;
+        };
+      };
+
+      var priceSavingsMatrixFunc = function(minPrice, maxPrice, roughStep) {
+        var matrix = [];
+        var x = 1;
+        var price = minPrice;
+        var parabolaFunc = parabolaFuncGenerator(roughStep, 0, minPrice);
+
+        do {
+          matrix.push(price);
+          price = parabolaFunc(x++);
+        } while (price < maxPrice);
+
+        // Add maxPrice manually
+        matrix.push(maxPrice);
+
+        return matrix;
+      };
+
+      var calculateSavings = function(price) {
+        var buyerCommision = 0.03;
+        var discount = 0.25;
+        return Math.floor(price * buyerCommision * discount);
+      };
+
+      var changeHandler = function(topSelector) {
+        return function(data) {
+          console.log({ data });
+          var price = Number(data.from_value);
+          var savings = calculateSavings(price);
+
+          $(topSelector + " .sws-ps-price").text("$" + formatNumber(price));
+          $(topSelector + " .sws-ps-savings").text("$" + formatNumber(savings));
+        };
+      };
+
+      var priceSavingsMatrix = priceSavingsMatrixFunc(minPrice, maxPrice, 5000);
+      console.log({ priceSavingsMatrix });
+
+      $(".js-range-slider-exponential").ionRangeSlider({
+        skin: "round",
+        grid: !0,
+        values: priceSavingsMatrix,
+        from: 4,
+        hide_min_max: true,
+        hide_from_to: true,
+        block: false, // for manual input switch effect
+        onStart: changeHandler("#sws-price-slider"),
+        onChange: changeHandler("#sws-price-slider")
+      });
+
+      var priceSavingsMatrixLinearFunc = function(minPrice, maxPrice, step) {
+        var matrix = [];
+        var price = minPrice;
+        do {
+          matrix.push(price);
+          price += step;
+        } while (price < maxPrice);
+
+        matrix.push(maxPrice);
+
+        return matrix;
+      };
+
+      var priceSavingsMatrixLinear = priceSavingsMatrixLinearFunc(
+        minPrice,
+        maxPrice,
+        100000
+      );
+
+      $(".js-range-slider-linear").ionRangeSlider({
+        skin: "round",
+        grid: !0,
+        values: priceSavingsMatrixLinear,
+        from: 4,
+        hide_min_max: true,
+        hide_from_to: true,
+        block: false, // for manual input switch effect
+        onStart: changeHandler("#sws-price-slider-linear"),
+        onChange: changeHandler("#sws-price-slider-linear")
+      });
+    </script>
+  </body>
+</html>
