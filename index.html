@@ -16,22 +16,51 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
 
     <style>
-      #sws-price-calculator {
+      #sws-savings-calculator {
         background-color: white;
-      }
-
-      .sws-price-slider * {
-        font-family: "Poppins", sans-serif; /* Need to determine font */
-        font-weight: 300;
-        line-height: 1.5;
-      }
-
-      .sws-price-slider {
         border-style: solid;
         border-width: 2px;
         background-clip: border-box;
         border-color: #f1f1f1;
         border-radius: 10px;
+        max-width: 1000px;
+        max-height: 700px;
+        margin: auto;
+        margin-top: 10em;
+      }
+
+      #sws-savings-calculator * {
+        font-family: "Poppins", sans-serif; /* Need to determine font */
+        font-weight: 300;
+      }
+
+      .sws-block {
+        border-style: solid;
+        background-clip: border-box;
+        border-color: #f1f1f1;
+        background-color: white;
+      }
+
+      .sws-block-border-all {
+        border-width: 2px;
+      }
+
+      .sws-block-border-not-top {
+        border-width: 0 2px 2px;
+        border-radius: 10px 10px 0 0;
+      }
+
+      .sws-block-border-not-bottom {
+        border-width: 2px 2px 0;
+        border-radius: 0 0 10px 10px;
+      }
+
+      .sws-ps-content-border-right {
+        border-style: solid;
+        border-width: 0;
+        background-clip: border-box;
+        border-color: #f1f1f1;
+        border-right-width: 4px;
       }
 
       .sws-column-group {
@@ -44,27 +73,18 @@
       }
 
       .sws-ps-content {
-        padding: 55px 40px;
-      }
-
-      .sws-ps-content-border-right {
-        border-style: solid;
-        border-width: 0;
-        background-clip: border-box;
-        border-color: #f1f1f1;
-        border-right-width: 2px;
+        padding: 16px;
       }
 
       .sws-ps-highlighted-number {
-        color: #3498db;
+        color: #8dc63f;
         font-size: 36px;
         margin: 0;
       }
 
-      /*.sws-ps-price::first-letter {
-        font-size: 26px;
-        letter-spacing: 0.2em;
-      }*/
+      .sws-ps-rewards {
+        text-align: center;
+      }
 
       .sws-ps-title {
         font-size: 22px;
@@ -105,13 +125,26 @@
       .irs--round .irs-grid {
         height: 18px !important;
       }
+
+      .irs--round .irs-bar {
+        background-color: #8dc63f;
+      }
+
+      .irs--round .irs-single {
+        background-color: #8dc63f;
+      }
     </style>
   </head>
 
-  <body>
-    <div id="sws-price-calculator">
+  <body
+    style="background-image: url(https://cashprod.wpengine.com/wp-content/uploads/2020/05/iStock-682432578.jpg); background-position: center center; background-repeat: no-repeat; "
+  >
+    <div id="sws-savings-calculator">
       <!-- Calculate buyer savings -->
-      <div id="sws-price-slider-buyer" class="sws-price-slider">
+      <div
+        id="sws-price-slider-buyer"
+        class="sws-block sws-block-border-not-top"
+      >
         <div class="sws-column-group">
           <div class="sws-ps-col">
             <div class="sws-ps-content sws-ps-content-border-right">
@@ -144,7 +177,7 @@
       </div>
 
       <!-- Calculate seller savings -->
-      <div id="sws-price-slider-seller" class="sws-price-slider">
+      <div id="sws-price-slider-seller" class="sws-block sws-block-border-all">
         <div class="sws-column-group">
           <div class="sws-ps-col">
             <div class="sws-ps-content sws-ps-content-border-right">
@@ -179,7 +212,7 @@
       </div>
 
       <!-- Calculate lender savings -->
-      <div id="sws-price-slider-lender" class="sws-price-slider">
+      <div id="sws-price-slider-lender" class="sws-block sws-block-border-all">
         <div class="sws-column-group">
           <div class="sws-ps-col">
             <div class="sws-ps-content sws-ps-content-border-right">
@@ -213,165 +246,166 @@
       </div>
 
       <!-- Show total -->
-      <div id="sws-price-slider-total" class="sws-price-slider">
-        <div class="sws-column-group">
-          <div class="sws-ps-col">
-            <div class="sws-ps-content">
-              <div class="sws-ps-price-messages">
-                <p
-                  class="sws-ps-title sws-ps-purchase-price-title sws-ps-total-price-title"
-                >
-                  Your Potential Rewards
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="sws-ps-col">
-            <div class="sws-ps-content">
-              <div class="sws-ps-savings-messages">
-                <p
-                  id="sws-ps-total-savings"
-                  class="sws-ps-highlighted-number sws-ps-savings"
-                >
-                  $0
-                </p>
-              </div>
-            </div>
-          </div>
+      <div
+        id="sws-price-slider-total"
+        class="sws-block sws-block-border-not-bottom"
+      >
+        <div class="sws-ps-content sws-ps-rewards">
+          <span
+            class="sws-ps-title sws-ps-purchase-price-title sws-ps-total-price-title"
+          >
+            Your Potential Rewards
+          </span>
+          <span
+            id="sws-ps-total-savings"
+            class="sws-ps-highlighted-number sws-ps-savings"
+          >
+            $0
+          </span>
         </div>
       </div>
     </div>
     <script>
-      var minHomePrice = 150000;
-      var maxHomePrice = 3000000;
+      (function($) {
+        window.addEventListener("DOMContentLoaded", function() {
+          var minHomePrice = 150000;
+          var maxHomePrice = 3000000;
 
-      // Savings state
-      var savingsObj = {
-        buyerSavings: 0,
-        sellerSavings: 0,
-        lenderSavings: 0,
-        calculateTotal: function() {
-          return this.buyerSavings + this.sellerSavings + this.lenderSavings;
-        }
-      };
+          // Savings state
+          var savingsObj = {
+            buyerSavings: 0,
+            sellerSavings: 0,
+            lenderSavings: 0,
+            calculateTotal: function() {
+              return (
+                this.buyerSavings + this.sellerSavings + this.lenderSavings
+              );
+            }
+          };
 
-      var calculateBuyerSavings = function(price) {
-        var buyerCommision = 0.03;
-        var discount = 0.25;
-        return Math.floor(price * buyerCommision * discount);
-      };
+          var calculateBuyerSavings = function(price) {
+            var buyerCommision = 0.03;
+            var discount = 0.25;
+            return Math.floor(price * buyerCommision * discount);
+          };
 
-      var calculateSellerSavings = function(price) {
-        var discount = 0.01;
-        return Math.floor(price * discount);
-      };
+          var calculateSellerSavings = function(price) {
+            var discount = 0.01;
+            return Math.floor(price * discount);
+          };
 
-      var calculateLenderSavings = function(option) {
-        var discount = 1000;
-        return option === "Yes" ? discount : 0;
-      };
+          var calculateLenderSavings = function(option) {
+            var discount = 1000;
+            return option === "Yes" ? discount : 0;
+          };
 
-      var sliderChangeHandler = function(
-        topSelector,
-        savingsCalculator,
-        savingsKey
-      ) {
-        return function(data) {
-          var price = data.from_value;
-          var savings = savingsCalculator(price);
+          var sliderChangeHandler = function(
+            topSelector,
+            savingsCalculator,
+            savingsKey
+          ) {
+            return function(data) {
+              var price = data.from_value;
+              var savings = savingsCalculator(price);
 
-          // Update savings by type
-          savingsObj[savingsKey] = savings;
+              // Update savings by type
+              savingsObj[savingsKey] = savings;
 
-          // Lender savings does not have dynamic input price
-          if (savingsKey !== "lenderSavings") {
-            $(topSelector + " .sws-ps-price").text("$" + formatNumber(price));
-          }
+              // Lender savings does not have dynamic input price
+              if (savingsKey !== "lenderSavings") {
+                $(topSelector + " .sws-ps-price").text(
+                  "$" + formatNumber(price)
+                );
+              }
 
-          $(topSelector + " .sws-ps-savings").text("$" + formatNumber(savings));
+              $(topSelector + " .sws-ps-savings").text(
+                "$" + formatNumber(savings)
+              );
 
-          // Display total
-          $("#sws-ps-total-savings").text(
-            "$" + formatNumber(savingsObj.calculateTotal())
+              // Display total
+              $("#sws-ps-total-savings").text(
+                "$" + formatNumber(savingsObj.calculateTotal())
+              );
+            };
+          };
+
+          var examplePriceListFunc = function(minPrice, maxPrice, step) {
+            var list = [0]; // Start at zero
+            var price = minPrice;
+
+            do {
+              list.push(price);
+              price += step;
+            } while (price < maxPrice);
+
+            list.push(maxPrice); // End with max
+
+            return list;
+          };
+
+          // Create example list of prices with min, max, and step
+          var examplePrices = examplePriceListFunc(
+            minHomePrice,
+            maxHomePrice,
+            100000
           );
-        };
-      };
 
-      var examplePriceListFunc = function(minPrice, maxPrice, step) {
-        var list = [0]; // Start at zero
-        var price = minPrice;
+          // Format number with commas
+          var formatNumber = function(num) {
+            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+          };
 
-        do {
-          list.push(price);
-          price += step;
-        } while (price < maxPrice);
+          /** Initialize all IonRangeSliders **/
+          var changeHandlerForBuyerSlider = sliderChangeHandler(
+            "#sws-price-slider-buyer",
+            calculateBuyerSavings,
+            "buyerSavings"
+          );
+          $("#js-range-slider-buyer").ionRangeSlider({
+            skin: "round",
+            grid: !0,
+            values: examplePrices,
+            from: 0,
+            hide_min_max: true,
+            hide_from_to: true,
+            block: false, // for manual input switch effect
+            onStart: changeHandlerForBuyerSlider,
+            onChange: changeHandlerForBuyerSlider
+          });
 
-        list.push(maxPrice); // End with max
+          var changeHandlerForSellerSlider = sliderChangeHandler(
+            "#sws-price-slider-seller",
+            calculateSellerSavings,
+            "sellerSavings"
+          );
+          $("#js-range-slider-seller").ionRangeSlider({
+            skin: "round",
+            grid: !0,
+            values: examplePrices,
+            from: 0,
+            hide_min_max: true,
+            hide_from_to: true,
+            block: false, // for manual input switch effect
+            onStart: changeHandlerForSellerSlider,
+            onChange: changeHandlerForSellerSlider
+          });
 
-        return list;
-      };
-
-      // Create example list of prices with min, max, and step
-      var examplePrices = examplePriceListFunc(
-        minHomePrice,
-        maxHomePrice,
-        100000
-      );
-
-      // Format number with commas
-      var formatNumber = function(num) {
-        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-      };
-
-      /** Initialize all IonRangeSliders **/
-      var changeHandlerForBuyerSlider = sliderChangeHandler(
-        "#sws-price-slider-buyer",
-        calculateBuyerSavings,
-        "buyerSavings"
-      );
-      $("#js-range-slider-buyer").ionRangeSlider({
-        skin: "round",
-        grid: !0,
-        values: examplePrices,
-        from: 0,
-        hide_min_max: true,
-        hide_from_to: true,
-        block: false, // for manual input switch effect
-        onStart: changeHandlerForBuyerSlider,
-        onChange: changeHandlerForBuyerSlider
-      });
-
-      var changeHandlerForSellerSlider = sliderChangeHandler(
-        "#sws-price-slider-seller",
-        calculateSellerSavings,
-        "sellerSavings"
-      );
-      $("#js-range-slider-seller").ionRangeSlider({
-        skin: "round",
-        grid: !0,
-        values: examplePrices,
-        from: 0,
-        hide_min_max: true,
-        hide_from_to: true,
-        block: false, // for manual input switch effect
-        onStart: changeHandlerForSellerSlider,
-        onChange: changeHandlerForSellerSlider
-      });
-
-      var changeHandlerForLenderSlider = sliderChangeHandler(
-        "#sws-price-slider-lender",
-        calculateLenderSavings,
-        "lenderSavings"
-      );
-      $("#js-range-slider-lender").ionRangeSlider({
-        skin: "round",
-        grid: !0,
-        values: ["No", "Yes"],
-        from: 0,
-        block: false, // for manual input switch effect
-        onStart: changeHandlerForLenderSlider,
-        onChange: changeHandlerForLenderSlider
-      });
+          var changeHandlerForLenderSlider = sliderChangeHandler(
+            "#sws-price-slider-lender",
+            calculateLenderSavings,
+            "lenderSavings"
+          );
+          $("#js-range-slider-lender").ionRangeSlider({
+            skin: "round",
+            grid: !0,
+            values: ["No", "Yes"],
+            from: 0,
+            block: false, // for manual input switch effect
+            onStart: changeHandlerForLenderSlider,
+            onChange: changeHandlerForLenderSlider
+          });
+        });
+      })(jQuery);
     </script>
   </body>
 </html>
