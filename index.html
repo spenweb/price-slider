@@ -3,6 +3,10 @@
   <head>
     <title>Parcel Sandbox</title>
     <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+    />
     <!--Plugin CSS file with desired skin-->
     <link
       rel="stylesheet"
@@ -15,131 +19,21 @@
     <!--Plugin JavaScript file-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
 
-    <style>
-      #sws-savings-calculator {
-        background-color: white;
-        border-style: solid;
-        border-width: 2px;
-        background-clip: border-box;
-        border-color: #f1f1f1;
-        border-radius: 10px;
-        max-width: 1000px;
-        max-height: 700px;
-        margin: auto;
-        margin-top: 10em;
-      }
-
-      #sws-savings-calculator * {
-        font-family: "Poppins", sans-serif; /* Need to determine font */
-        font-weight: 300;
-      }
-
-      .sws-block {
-        border-style: solid;
-        background-clip: border-box;
-        border-color: #f1f1f1;
-        background-color: white;
-      }
-
-      .sws-block-border-all {
-        border-width: 2px;
-      }
-
-      .sws-block-border-not-top {
-        border-width: 0 2px 2px;
-        border-radius: 10px 10px 0 0;
-      }
-
-      .sws-block-border-not-bottom {
-        border-width: 2px 2px 0;
-        border-radius: 0 0 10px 10px;
-      }
-
-      .sws-ps-content-border-right {
-        border-style: solid;
-        border-width: 0;
-        background-clip: border-box;
-        border-color: #f1f1f1;
-        border-right-width: 4px;
-      }
-
-      .sws-column-group {
-        overflow: hidden;
-      }
-
-      .sws-ps-col {
-        width: 50%;
-        float: left;
-      }
-
-      .sws-ps-content {
-        padding: 16px;
-      }
-
-      .sws-ps-highlighted-number {
-        color: #8dc63f;
-        font-size: 36px;
-        margin: 0;
-      }
-
-      .sws-ps-rewards {
-        text-align: center;
-      }
-
-      .sws-ps-title {
-        font-size: 22px;
-        line-height: 1.2;
-        margin: 10px 0;
-      }
-
-      .sws-ps-disclaimer {
-        margin-top: 25px;
-        margin-bottom: 0;
-        font-size: 16px;
-      }
-
-      .sws-ps-title.sws-ps-purchase-price-title.sws-ps-total-price-title {
-        font-size: 42px;
-        text-align: right;
-      }
-
-      .irs-grid-pol.small,
-      .irs-grid-text,
-      .irs-max,
-      .irs-min,
-      .irs-single {
-        display: none;
-      }
-
-      #sws-price-slider-lender .irs-min,
-      #sws-price-slider-lender .irs-max,
-      #sws-price-slider-lender .irs-single {
-        display: inherit !important;
-      }
-
-      .irs--round .irs-handle {
-        border: none !important;
-        box-shadow: 1px 1px 10px 5px rgba(52, 152, 219, 0.15) !important;
-      }
-
-      .irs--round .irs-grid {
-        height: 18px !important;
-      }
-
-      .irs--round .irs-bar {
-        background-color: #8dc63f;
-      }
-
-      .irs--round .irs-single {
-        background-color: #8dc63f;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
 
   <body
-    style="background-image: url(https://cashprod.wpengine.com/wp-content/uploads/2020/05/iStock-682432578.jpg); background-position: center center; background-repeat: no-repeat; "
+    style="background-image: url(assets/open-kitchen.jpg); background-position: center center; background-repeat: no-repeat; "
   >
     <div id="sws-savings-calculator">
+      <noscript>
+        <h3>JavaScript is disabled</h3>
+        <p>
+          Please enable JavaScript in your browser settings so that you can use
+          the savings calculator tool.
+        </p>
+      </noscript>
+
       <!-- Calculate buyer savings -->
       <div
         id="sws-price-slider-buyer"
@@ -163,7 +57,7 @@
             </div>
           </div>
           <div class="sws-ps-col">
-            <div class="sws-ps-content">
+            <div class="sws-ps-content sws-ps-content-border-left">
               <div class="sws-ps-savings-messages">
                 <p class="sws-ps-title sws-ps-savings-title">
                   Your Rewards At Closing
@@ -183,7 +77,7 @@
             <div class="sws-ps-content sws-ps-content-border-right">
               <div class="sws-ps-price-messages">
                 <p class="sws-ps-title sws-ps-purchase-price-title">
-                  The Sales Price of your home “Selling”
+                  The Sales Price Of Your Home “Selling”
                 </p>
                 <p class="sws-ps-highlighted-number sws-ps-price">$0</p>
               </div>
@@ -196,10 +90,10 @@
             </div>
           </div>
           <div class="sws-ps-col">
-            <div class="sws-ps-content">
+            <div class="sws-ps-content sws-ps-content-border-left">
               <div class="sws-ps-savings-messages">
                 <p class="sws-ps-title sws-ps-savings-title">
-                  Your Additional Reward At Close
+                  Your Additional Rewards At Close
                 </p>
                 <p class="sws-ps-highlighted-number sws-ps-savings">$0</p>
                 <p class="sws-ps-disclaimer">
@@ -218,8 +112,8 @@
             <div class="sws-ps-content sws-ps-content-border-right">
               <div class="sws-ps-price-messages">
                 <p class="sws-ps-title sws-ps-purchase-price-title">
-                  By utilizing a CashAtClose Preferred Lender you’ll receive and
-                  additional $1,000 Incentive At Closing
+                  By Utilizing A CashAtClose Preferred Lender You’ll Receive An
+                  Additional $1,000 Incentive At Closing
                 </p>
                 <div style="width: 120px;">
                   <input
@@ -233,7 +127,7 @@
             </div>
           </div>
           <div class="sws-ps-col">
-            <div class="sws-ps-content">
+            <div class="sws-ps-content sws-ps-content-border-left">
               <div class="sws-ps-savings-messages">
                 <p class="sws-ps-title sws-ps-savings-title">
                   Additional Lender Incentive
@@ -399,7 +293,7 @@
             skin: "round",
             grid: !0,
             values: ["No", "Yes"],
-            from: 0,
+            from: 1,
             block: false, // for manual input switch effect
             onStart: changeHandlerForLenderSlider,
             onChange: changeHandlerForLenderSlider
