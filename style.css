@@ -129,6 +129,14 @@
 }
 
 @media (max-width: 480px) {
+  body .nectar-highlighted-text h1 {
+    font-size: 24px;
+  }
+
+  .wpb_wrapper > div {
+    margin-bottom: 0;
+  }
+
   p.sws-ps-title {
     font-size: 12px;
   }
